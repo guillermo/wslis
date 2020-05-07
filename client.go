@@ -17,13 +17,16 @@ type Client struct {
 
 	// Headers to send to the server while opening a connection
 	Header http.Header
+
+	// HandshakeTimeout specifies the duration for the handshake to complete.
+	HandshakeTimeout time.Duration
 }
 
 // DialAndListen does a websocket
 func (c *Client) DialAndListen() (net.Listener, error) {
 
 	dialer := &websocket.Dialer{
-		HandshakeTimeout: time.Second,
+		HandshakeTimeout: c.HandshakeTimeout,
 	}
 
 	wsconn, _, err := dialer.Dial(c.URL, c.Header)
